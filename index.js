@@ -29,19 +29,15 @@ app.post('/', async (req, res) => {
 	try {
 		let response;
 		if (req.body.conversationId) {
-			response = await chatgpt
-				.sendMessage(message, {
-					conversationId: req.body.conversationId,
-					parentMessageId: req.body.lastMessageId,
-					timeoutMs: 30 * 1000 // 30 Second timeout
-				})
-				.catch(() => res.sendStatus(400));
+			response = await chatgpt.sendMessage(message, {
+				conversationId: req.body.conversationId,
+				parentMessageId: req.body.lastMessageId,
+				timeoutMs: 1 * 60 * 1000 // 1 Minute Timeout
+			});
 		} else {
-			response = await chatgpt
-				.sendMessage(message, {
-					timeoutMs: 30 * 1000 // 30 Second timeout
-				})
-				.catch(() => res.sendStatus(400));
+			response = await chatgpt.sendMessage(message, {
+				timeoutMs: 1 * 60 * 1000 // 1 Minute Timeout
+			});
 		}
 		if ('text' in response) res.json(response);
 	} catch (e) {
